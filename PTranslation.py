@@ -7,7 +7,7 @@ counter = False
 default = False
 mode = 'en'
 
-def trans(event, mode):
+def trans(event):
     global mode
     global counter
     words = entry.get()
