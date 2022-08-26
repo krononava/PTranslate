@@ -8,6 +8,7 @@ default = False
 mode = 'en'
 
 def trans(event, mode):
+    global mode
     global counter
     words = entry.get()
     result = translator.translate(words, src='ms', dest=mode).text
@@ -43,7 +44,7 @@ window = Tk()
 window.title("PTranslate")
 entry = Entry(fg="white", bg="black", width=37, font=(None, 18), justify='center')
 button = Button(text="English", width=44, height=1, bg="purple", fg="white", command=lambda: change_mode())
-window.bind("<Return>", lambda event: trans(event, mode)) 
+window.bind("<Return>", lambda event: trans(event)) 
 window.bind("<Key>", lambda event: clear_field(event))
 
 entry.pack()

@@ -9,3 +9,7 @@ Use cases are the following:
 ## How to use?
 
 Start typing any BM words and hit enter. Click on the purple button to change between English/Chinese translation.
+
+## Build executable
+
+Install python 3.10.x and run build.bat.
