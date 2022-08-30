@@ -1,11 +1,17 @@
 from tkinter import *
 from googletrans import Translator
+import threading
+from pynput import keyboard
+import time
+import ctypes
 
 translator = Translator()
+set_to_foreground = ctypes.windll.user32.SetForegroundWindow
 
 counter = False
 default = False
 mode = 'en'
+t = 0
 
 def trans(event):
     global mode
@@ -17,9 +23,11 @@ def trans(event):
     counter = True
 
 def ontop():
-    window.lift()
     window.attributes('-topmost', 1)
     window.attributes('-topmost', 0)
+    keyboard.Controller().press(keyboard.Key.alt)
+    keyboard.Controller().release(keyboard.Key.alt)
+    set_to_foreground(window.winfo_id())
     entry.focus_force()
 
 def clear_field(event):
@@ -40,12 +48,31 @@ def change_mode():
         mode = 'en'
         button.configure(text="English")
 
+def delay():
+    global t
+    time.sleep(0.4)
+    t = 0
+
+def on_release(key):
+    global t
+    if key == keyboard.Key.ctrl_l:
+        if t == 0:
+            timer = threading.Thread(target=delay, daemon=True)
+            timer.start()
+        t += 1
+        if t >= 2:
+            ontop()
+
+listener = keyboard.Listener(on_release=on_release)
+listener.start()
+
 window = Tk()
 window.title("PTranslate")
 entry = Entry(fg="white", bg="black", width=37, font=(None, 18), justify='center')
 button = Button(text="English", width=44, height=1, bg="purple", fg="white", command=lambda: change_mode())
 window.bind("<Return>", lambda event: trans(event)) 
 window.bind("<Key>", lambda event: clear_field(event))
+
 
 entry.pack()
 button.pack()
