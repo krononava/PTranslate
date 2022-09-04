@@ -13,5 +13,7 @@ Start typing any BM words and hit enter. Click on the purple button to change be
 ## Build executable
 
 > Install [python3.10](https://www.python.org/)
+
 > Git clone repo
+
 > Run build.bat
