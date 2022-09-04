@@ -17,7 +17,12 @@ def trans(event):
     global mode
     global counter
     words = entry.get()
-    result = translator.translate(words, src='ms', dest=mode).text
+    from_bm = translator.translate(words, src='ms', dest=mode).text
+    to_bm = translator.translate(words, src=mode, dest='ms').text
+    if from_bm != words:    # check if words is english or bm
+        result = from_bm
+    else:
+        result = to_bm
     entry.delete(0, END)
     entry.insert(string=result, index=0)
     counter = True
